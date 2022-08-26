@@ -31,15 +31,27 @@ router.post("/register", async (req, res) => {
 //Login User
 router.post("/login", async (req, res) => {
     const password = req.body.password;
-
+   
     try{
-        const userDetail = await getUser.findOne(req.body.email);
-
-        return res.json({
-            status: true,
-            message: 'User Login Successful',
-            data: userDetail
-        });
+        const userDetail = await User.findOne({ "email": req.body.email });
+        const hashedPassword = cryptoJs.AES.decrypt(userDetail.password, process.env.PASS_SEC);
+        const newPassword = hashedPassword.toString(cryptoJs.enc.Utf8);
+        
+        if (userDetail) {
+            if(newPassword == password){
+                return res.json({
+                    status: true,
+                    message: 'User Login Successful',
+                    data: userDetail.password
+                });
+            }else{
+                return res.json({
+                    status: false,
+                    message: 'Password is wrong',
+                    data: null
+                });
+            }
+        }
     }catch(err){
         return res.json({
             status: false,
