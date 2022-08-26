@@ -1,8 +1,11 @@
 const express = require("express");
 const app = express();
 
+const cors = require("cors");
+
 const dotenv = require("dotenv");
 dotenv.config();
+
 
 const mongoose = require("mongoose");
 
@@ -17,6 +20,7 @@ mongoose.connect(
         console.log(err);
     });
 
+app.use(cors());            //Useful for cross side request from angular and anywhere it allow
 app.use(express.json()); 
 
 
