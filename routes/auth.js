@@ -28,6 +28,7 @@ router.post("/register", async (req, res) => {
 
 });
 
+
 //Login User
 router.post("/login", async (req, res) => {
     const password = req.body.password;
@@ -36,7 +37,7 @@ router.post("/login", async (req, res) => {
         const userDetail = await User.findOne({ "email": req.body.email });
         const hashedPassword = cryptoJs.AES.decrypt(userDetail.password, process.env.PASS_SEC);
         const newPassword = hashedPassword.toString(cryptoJs.enc.Utf8);
-        
+
         if (userDetail) {
             if(newPassword == password){
                 return res.json({
@@ -61,7 +62,6 @@ router.post("/login", async (req, res) => {
     }
 
 });
-
 
 
 module.exports = router;
