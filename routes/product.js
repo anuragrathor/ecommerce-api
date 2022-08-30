@@ -35,33 +35,31 @@ router.post("/add", async (req, res) => {
 
 //PRODUCT LIST
 router.post("/get", async (req, res) => {
+    const qNew = req.query.new;
+    const qCategory = req.query.category;
+    const qtitle = req.query.title || '';
+
     try{
-        const page = parseInt(req.query.page);
-        const limit = parseInt(req.query.limit);
-        const skipIndex = (page - 1) * limit;
-        const results = {};
+        let products;
         
-        if(page < 0 || page === 0) {
-            response = {status : false,message : "invalid page number, should start with 1",data: null};
-            return res.json(response)
-        }
+        if (qNew) {
+            products = await Product.find().sort({ createdAt: -1}).limit(5); 
+        }else if (qCategory) {
+            products = await Product.find({
+                categories: {
+                    $in: [qCategory],
+                },
+            }); 
+        }else{
+            products = await Product.find(); 
+        } 
 
-        if (results) {
-            results.results = await Product.find()
-            .sort({ _id: 1 })
-            .limit(limit)
-            .skip(skipIndex)
-            .exec();
-            res.paginatedResults = results;
-            //next();
+        return res.json({
+            status: true,
+            message: 'Product List Fetch Successful',
+            data: products
+        });
 
-            return res.json({
-                status: true,
-                message: 'Product List Fetch Successful',
-                data: res.paginatedResults,
-                pages: page
-            });
-        }
     }catch(err){
         return res.json({
             status: false,
