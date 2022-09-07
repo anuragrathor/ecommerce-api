@@ -26,7 +26,8 @@ const router = express.Router();
 
 router.post('/login', signin);
 
-router.post('/register', singleFile('image'), signup);
+router.post('/register',  signup);
+// router.post('/register', singleFile('image'), signup);
 
 router.post('/logout', logout);
 

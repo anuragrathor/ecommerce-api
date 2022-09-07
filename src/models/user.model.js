@@ -72,12 +72,14 @@ const userSchema = mongoose.Schema(
       type: String
     },
     profileImage: {
-      type: String,
-      required: true
+      type: String
+      // ,
+      // required: true
     },
     profileImageId: {
-      type: String,
-      required: true
+      type: String
+      // ,
+      // required: true
     },
     discountCode: {
       type: String

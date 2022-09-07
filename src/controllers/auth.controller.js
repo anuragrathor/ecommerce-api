@@ -25,8 +25,7 @@ import { authService } from '../services';
 export const signup = catchAsync(async (req, res) => {
   // 1) Calling sign up service
   const { type, message, statusCode, user, tokens } = await authService.signup(
-    req.body,
-    req.file
+    req.body
   );
 
   // 2) Check if something went wrong

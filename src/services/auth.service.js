@@ -26,15 +26,16 @@ import { User, Token } from '../models/index';
  * @param   { Object } profileImage - User profile image
  * @return  { Object<type|statusCode|message|user|tokens> }
  */
-export const signup = catchAsync(async (body, profileImage) => {
+export const signup = catchAsync(async (body) => {
+  // export const signup = catchAsync(async (body, profileImage) => {
   // 1) Check if profile image not provided
-  if (profileImage === undefined) {
-    return {
-      type: 'Error',
-      message: 'profileImageRequired',
-      statusCode: 400
-    };
-  }
+  // if (profileImage === undefined) {
+  //   return {
+  //     type: 'Error',
+  //     message: 'profileImageRequired',
+  //     statusCode: 400
+  //   };
+  // }
 
   const { name, username, email, password, passwordConfirmation, role } = body;
   let { companyName, address, phone } = body;
@@ -50,8 +51,7 @@ export const signup = catchAsync(async (body, profileImage) => {
     !email ||
     !password ||
     !passwordConfirmation ||
-    !role ||
-    profileImage.length === 0
+    !role 
   ) {
     return {
       type: 'Error',
@@ -93,11 +93,11 @@ export const signup = catchAsync(async (body, profileImage) => {
   const folderName = `Users/${name.trim().split(' ').join('')}`;
 
   // 6) Upload image to cloudinary
-  const image = await uploadFile(
-    dataUri(profileImage).content,
-    folderName,
-    600
-  );
+  // const image = await uploadFile(
+  //   dataUri(profileImage).content,
+  //   folderName,
+  //   600
+  // );
 
   // 7) Create new user account
   const user = await User.create({
@@ -109,9 +109,10 @@ export const signup = catchAsync(async (body, profileImage) => {
     role,
     companyName,
     address,
-    phone,
-    profileImage: image.secure_url,
-    profileImageId: image.public_id
+    phone
+    // ,
+    // profileImage: image.secure_url,
+    // profileImageId: image.public_id
   });
 
   // 8) Generate tokens (access token & refresh token)
