@@ -50,7 +50,8 @@ router
 
 router.route('/size/:productId').post(addProductSize).delete(deleteProductSize);
 
-router.post('/', anyMulter(), addProduct);
+router.post('/',  addProduct);
+// router.post('/', anyMulter(), addProduct);
 
 router.patch('/:productId/details', updateProductDetails);
 
