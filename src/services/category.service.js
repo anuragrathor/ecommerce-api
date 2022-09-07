@@ -13,11 +13,13 @@ import { Category } from '../models/index';
  * @param   { Object } file - Category image
  * @returns { Object<type|message|statusCode|category> }
  */
-export const createCategory = catchAsync(async (body, file) => {
+export const createCategory = catchAsync(async (body) => {
+  // export const createCategory = catchAsync(async (body, file) => {
   const { name, description } = body;
 
   // 1) Check if the user entered all fields
-  if (!name || !description || !file) {
+  if (!name || !description ) {
+    // if (!name || !description || !file) {
     return {
       type: 'Error',
       message: 'fieldsRequired',
@@ -29,17 +31,17 @@ export const createCategory = catchAsync(async (body, file) => {
   const folderName = `Category/${name.trim().split(' ').join('')}`;
 
   // 3) Generate a buffer instance from a data uri string
-  let image = dataUri(file);
+  //let image = dataUri(file);
 
   // 4) Upload image to cloudinary
-  image = await uploadFile(image.content, folderName, 600);
+  //image = await uploadFile(image.content, folderName, 600);
 
   // 5) Create body
   const object = {
     name,
     description,
-    image: image.secure_url,
-    imageId: image.public_id
+    // image: image.secure_url,
+    // imageId: image.public_id
   };
 
   // 6) Create new category

@@ -32,7 +32,8 @@ router.get('/:id', getCategory);
 router.use(protect);
 
 // Add Category (Multer Middleware) Route
-router.post('/', singleFile('image'), addCategory);
+router.post('/',  addCategory);
+// router.post('/', singleFile('image'), addCategory);
 
 // Update Category details Route
 // Delete Category Route
